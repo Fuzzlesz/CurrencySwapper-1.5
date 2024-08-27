@@ -6,32 +6,32 @@ namespace Hooks {
 		SKSE::AllocTrampoline(98); // 7 * 14
 		auto& trampoline = SKSE::GetTrampoline();
 
-		//1.6.1170 -> 1408ec1d9 (Actor::GetGoldAmount)
-		REL::Relocation<std::uintptr_t> playerGoldTarget{ REL::ID(50957), 0x69 };
+		//1.5 -> 1408533B0
+		REL::Relocation<std::uintptr_t> playerGoldTarget{ REL::ID(50013), 0x69 };
 		_getPlayerGold = trampoline.write_call<5>(playerGoldTarget.address(), &GetPlayerGold);
 
-		//1.6.1170 -> 1408ec2a9 (ExtraContainerChanges__Data::GetGoldAmount)
-		REL::Relocation<std::uintptr_t> vendorGoldTarget{ REL::ID(50957), 0x139 };
+		//1.5 -> 1408533B0
+		REL::Relocation<std::uintptr_t> vendorGoldTarget{ REL::ID(50013), 0x139 };
 		_getVendorGold = trampoline.write_call<5>(vendorGoldTarget.address(), &GetVendorGold);
 
-		//1.6.1170 -> 1408eb997
-		REL::Relocation<std::uintptr_t> saleGoldTarget{ REL::ID(50951), 0x257 };
+		//1.5 -> 1408528D0
+		REL::Relocation<std::uintptr_t> saleGoldTarget{ REL::ID(50007), 0x257 };
 		_getGoldFromSale = trampoline.write_call<5>(saleGoldTarget.address(), &GetGoldFromSale);
 
-		//1.6.1170 -> 1408eb861
-		REL::Relocation<std::uintptr_t> purchaseGoldTarget{ REL::ID(50951), 0x121 };
+		//1.5 -> 1408528D0
+		REL::Relocation<std::uintptr_t> purchaseGoldTarget{ REL::ID(50007), 0x121 };
 		_getGoldFromPurchase = trampoline.write_call<5>(purchaseGoldTarget.address(), &GetGoldFromPurchase);
 
-		//1.6.1170 -> 1408ebb51
-		REL::Relocation<std::uintptr_t> rawDealTarget{ REL::ID(50952), 0xB1 };
+		//1.5 -> 140852C30
+		REL::Relocation<std::uintptr_t> rawDealTarget{ REL::ID(50008), 0xB1 };
 		_processRawDeal = trampoline.write_call<5>(rawDealTarget.address(), &ProcessRawDeal);
 
-		//1.6.1170 -> 1408eb8e7 (ShowHUDMessage)
-		REL::Relocation<std::uintptr_t> rejectedDealTarget{ REL::ID(50951), 0x1A7 };
+		//1.5 -> 1408528D0
+		REL::Relocation<std::uintptr_t> rejectedDealTarget{ REL::ID(50007), 0x1A7 };
 		_processRejectedDeal = trampoline.write_call<5>(rejectedDealTarget.address(), &ProcessRejectedDeal);
 
-		//1.6.1170 -> 1408ec467
-		REL::Relocation<std::uintptr_t> resetVendorInformationTarget{ REL::ID(50957), 0x2F7 };
+		//1.5 -> 1408533B0
+		REL::Relocation<std::uintptr_t> resetVendorInformationTarget{ REL::ID(50013), 0x2F7 };
 		_recalcVendorGold = trampoline.write_call<5>(resetVendorInformationTarget.address(), &RecalcVendorGold);
 
 		auto* sGold = RE::GameSettingCollection::GetSingleton()->GetSetting("sGold");
@@ -185,7 +185,8 @@ namespace Hooks {
 	void BarterHooks::GoldRemovedMessage(RE::TESForm* a_formToRemove, int a_ammount, bool arg3, bool arg4, const char* arg5)
 	{
 		using func_t = decltype(&BarterHooks::GoldRemovedMessage);
-		static REL::Relocation<func_t> func{ REL::ID(51636) };
+		//1.5 -> 14087FB60
+		static REL::Relocation<func_t> func{ REL::ID(50741) };
 		return func(a_formToRemove, a_ammount, arg3, arg4, arg5);
 	}
 
@@ -193,7 +194,8 @@ namespace Hooks {
 								   uint64_t a_concatResult, int arg6, long long** arg7, RE::ItemList* arg8, long long** arg9, long long **arg10)
 	{
 		using func_t = decltype(&BarterHooks::MoveGoldBetweenContainers);
-		static REL::Relocation<func_t> func{ REL::ID(16059) };
+		//1.5 -> 1401DB660
+		static REL::Relocation<func_t> func{ REL::ID(15821) };
 		return func(a_inventoryChanges, param_2, a_actor, a_form, a_concatResult, arg6, arg7, arg8, arg9, arg10);
 	}
 
