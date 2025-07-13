@@ -41,7 +41,6 @@
       "hidden": true,
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
-        "FULL_RELEASE": true
       }
     },
     {
@@ -54,7 +53,6 @@
       "hidden": true,
       "binaryDir": "${sourceDir}/build-outdated",
       "cacheVariables": {
-        "FULL_RELEASE": true,
         "OUTDATED": true
       }
     },

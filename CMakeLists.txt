@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
-option(FULL_RELEASE "Finalizes the build, compressing everything into a BSA." OFF)
-option(OUTDATED "Applies 1.5.97 offsets/IDs." OFF)
+option(OUTDATED "Applies 1.5.97 offsets/IDs." ON)
 
 # -------- Project ----------
 project(
@@ -53,26 +52,3 @@ set_target_properties(CommonLibSSE PROPERTIES
 set(DATA_DIR "${PROJECT_SOURCE_DIR}/data")
 
 include(components.cmake)
-
-# ---- Post build ----
-if(DEFINED ENV{SKYRIM_MODS_FOLDER} AND IS_DIRECTORY "$ENV{SKYRIM_MODS_FOLDER}")
-	if(OUTDATED)
-		set(OUTPUT_FOLDER "$ENV{SKYRIM_MODS_FOLDER}/${PROJECT_NAME} - Outdated")
-	elseif (FULL_RELEASE)
-		set(OUTPUT_FOLDER "$ENV{SKYRIM_MODS_FOLDER}/${PROJECT_NAME} - Full Release")
-	else()
-		set(OUTPUT_FOLDER "$ENV{SKYRIM_MODS_FOLDER}/${PROJECT_NAME} - Test")
-	endif()
-endif()
-
-# ---- Automatically copy artifacts to MO2 ----
-if(DEFINED OUTPUT_FOLDER)
-    set(DLL_FOLDER "${OUTPUT_FOLDER}/SKSE/Plugins")
-
-    add_custom_command(
-        TARGET "${PROJECT_NAME}"
-        POST_BUILD
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:${PROJECT_NAME}>" "${DLL_FOLDER}/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_PDB_FILE:${PROJECT_NAME}>" "${DLL_FOLDER}/$<TARGET_PDB_FILE_NAME:${PROJECT_NAME}>"
-    )
-endif()
