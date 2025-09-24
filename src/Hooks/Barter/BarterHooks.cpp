@@ -128,7 +128,7 @@ namespace Hooks::Barter
 
 	inline bool GetPlayerGoldHook::Install() {
 		logger::info("  >Installing the Get Player Gold hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(50957), 0x69 };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(50013), 0x69 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
@@ -140,7 +140,7 @@ namespace Hooks::Barter
 
 	inline bool GetVendorGoldHook::Install() {
 		logger::info("  >Installing the Get Vendor Gold hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(50957), 0x139 };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(50013), 0x139 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
@@ -152,7 +152,7 @@ namespace Hooks::Barter
 
 	inline bool GetGoldFromSaleHook::Install() {
 		logger::info("  >Installing the Get Gold from Sale hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(50951), 0x257 };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(50007), 0x257 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
@@ -164,7 +164,7 @@ namespace Hooks::Barter
 
 	inline bool GetGoldFromPurchaseHook::Install() {
 		logger::info("  >Installing the Get Gold from Purchase hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(50951), 0x121 };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(50007), 0x121 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
@@ -176,7 +176,7 @@ namespace Hooks::Barter
 
 	inline bool RawDealHook::Install() {
 		logger::info("  >Installing the Raw Deal hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(50952), 0xB1 };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(50008), 0xB1 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
@@ -188,7 +188,7 @@ namespace Hooks::Barter
 
 	inline bool RejectedDealHook::Install() {
 		logger::info("  >Installing the Rejected Deal hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(50951), 0x1A7 };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(50007), 0x1A7 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
@@ -200,7 +200,7 @@ namespace Hooks::Barter
 
 	inline bool RecalcVendorGoldHook::Install() {
 		logger::info("  >Installing the Recalc Vendor Gold hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(50957), 0x2F7 };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(50013), 0x2F7 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
@@ -212,7 +212,7 @@ namespace Hooks::Barter
 
 	inline bool ShowBarterMenuHook::Install() {
 		logger::info("  >Installing the Show Barter Menu hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(50955), 0x21 };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(50011), 0x21 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
