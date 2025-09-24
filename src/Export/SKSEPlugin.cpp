@@ -4,39 +4,25 @@
 #include "Serialization/Serde.h"
 #include "Settings/INI/INISettings.h"
 
-#ifdef SKYRIM_AE
-extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []()
-	{
-		SKSE::PluginVersionData v{};
+void InitializeLog()
+{
+	auto path = logger::log_directory();
+	if (!path) {
+		SKSE::stl::report_and_fail("Failed to find standard logging directory"sv);
+	}
 
-		v.PluginVersion(Plugin::VERSION);
-		v.PluginName(Plugin::NAME);
-		v.AuthorName("SeaSparrow"sv);
-		v.UsesAddressLibrary();
-		v.UsesUpdatedStructs();
+	*path /= fmt::format(FMT_STRING("{}.log"), Plugin::NAME);
+	auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 
-		return v;
-	}();
-#endif
+	auto log = std::make_shared<spdlog::logger>("global log"s, std::move(sink));
+	log->set_level(spdlog::level::info);
+	log->flush_on(spdlog::level::info);
 
-#ifndef NDEBUG
-void SetupLog() {
-	auto logsFolder = SKSE::log::log_directory();
-	if (!logsFolder) SKSE::stl::report_and_fail("SKSE log_directory not provided, logs disabled.");
+	spdlog::set_default_logger(std::move(log));
+	spdlog::set_pattern("[%H:%M:%S] %v"s);
 
-	auto pluginName = Plugin::NAME;
-	auto logFilePath = *logsFolder / std::format("{}.log", pluginName);
-	auto fileLoggerPtr = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFilePath.string(), true);
-	auto loggerPtr = std::make_shared<spdlog::logger>("log", std::move(fileLoggerPtr));
-
-	spdlog::set_default_logger(std::move(loggerPtr));
-	spdlog::set_level(spdlog::level::debug);
-	spdlog::flush_on(spdlog::level::debug);
-
-	//Pattern
-	spdlog::set_pattern("%v");
+	logger::info(FMT_STRING("{} v{}"), Plugin::VERSION, Plugin::NAME);
 }
-#endif
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
 {
@@ -50,11 +36,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 	}
 
 	const auto ver = a_skse->RuntimeVersion();
-#ifdef SKYRIM_AE
-	if (ver < SKSE::RUNTIME_SSE_1_6_1130) {
-#else
 	if (ver < SKSE::RUNTIME_1_5_39) {
-#endif
 		logger::critical(FMT_STRING("Unsupported runtime version {}"), ver.string());
 		return false;
 	}
@@ -64,23 +46,13 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface * a_skse)
 {
-#ifndef NDEBUG
-	SetupLog();
-	SKSE::Init(a_skse, false);
-#else
+	InitializeLog();
+
 	SKSE::Init(a_skse);
-#endif
 	SECTION_SEPARATOR;
 	logger::info("{} v{}"sv, Plugin::NAME, Plugin::VERSION.string());
 	logger::info("Author: SeaSparrow"sv);
 	SECTION_SEPARATOR;
-
-#ifdef SKYRIM_AE
-	const auto ver = a_skse->RuntimeVersion();
-	if (ver < SKSE::RUNTIME_SSE_1_6_1130) {
-		return false;
-	}
-#endif
 
 	logger::info("Performing startup tasks..."sv);
 
