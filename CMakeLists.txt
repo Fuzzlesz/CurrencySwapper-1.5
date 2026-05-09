@@ -33,8 +33,8 @@ list(APPEND CMAKE_MODULE_PATH
 include(SKSEPlugin)
 set(SKSE_USE_XBYAK ON)
 add_compile_definitions(SKSE_SUPPORT_XBYAK)
-add_compile_definitions(SKYRIM_AE)
-add_compile_definitions(SKYRIM_SUPPORT_AE)
+add_compile_definitions(SKYRIM_SE)
+add_compile_definitions(SKYRIM_SUPPORT_SE)
 
 SKSEPlugin_Add(
 	${PROJECT_NAME}
