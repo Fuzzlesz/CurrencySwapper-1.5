@@ -10,7 +10,7 @@ namespace Hooks::Notifications
 
 	bool NotificationPatch::Install() {
 		logger::info("  >Installing the Notification hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(16127), 0x182 };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(15887), 0x178 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;

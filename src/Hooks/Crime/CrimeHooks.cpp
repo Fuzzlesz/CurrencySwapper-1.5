@@ -5,7 +5,7 @@
 namespace Hooks::Crime {
 	bool RemovePlayerCrimeGoldHook::InstallCrimeHook() {
 		logger::info("  >Installing the PayCrime hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(40659), 0x12B };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(39573), 0x15F };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
@@ -27,7 +27,7 @@ namespace Hooks::Crime {
 
 	bool CanPayCrimeGoldHook::InstallCanPayCrimeGoldHook() {
 		logger::info("  >Installing the CanPayBounty hook..."sv);
-		REL::Relocation<std::uintptr_t> target{ REL::ID(21704), 0x3C };
+		REL::Relocation<std::uintptr_t> target{ REL::ID(21247), 0x42 };
 		if (!REL::make_pattern<"E8">().match(target.address())) {
 			logger::critical("    >Failed to validate the hook pattern."sv);
 			return false;
